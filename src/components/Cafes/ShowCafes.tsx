@@ -1,26 +1,49 @@
-import { Box, Grid, Heading, Image, Text, VStack } from "@chakra-ui/react";
-
+import { Grid } from "@chakra-ui/react";
+import CafeItem from "./CafeItem";
+import CafeItemSkeleton from "./CafeItemSkeleton";
+import { useEffect, useState } from "react";
 const ShowCafes = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [cafes, setCafes] = useState(undefined);
+  useEffect(() => {
+    const getCafes = async () => {
+      const response = await fetch("http://127.0.0.1:8000/api/v1/cafes/");
+      const result = await response.json();
+      setCafes(result);
+      setIsLoading(false);
+    };
+    getCafes();
+  }, []);
   return (
-    <Grid px={40} columnGap={4} rowGap={8} templateColumns={"repeat(5, 1fr)"}>
-      <VStack spacing={-0.5} alignItems={"flex-start"}>
-        <Box overflow={"hidden"} mb={3} rounded={"3xl"}>
-          <Image
-            h="280"
-            objectFit={"cover"}
-            src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20201202_117%2F1606871493850AXEYj_JPEG%2Fimage.jpg"
-          />
-        </Box>
-        <Heading fontSize={"md"} noOfLines={1}>
-          이엠스튜디오 에브리모먼트커피
-        </Heading>
-        <Text fontSize={"xs"} color={"gray.600"}>
-          강원 강릉시 난설헌로 228-29
-        </Text>
-        <Text fontSize={"xs"} color={"gray.600"}>
-          강원 강릉시 난설헌로 228-29
-        </Text>
-      </VStack>
+    <Grid
+      px={{
+        base: 10,
+        lg: 40,
+      }}
+      columnGap={4}
+      rowGap={8}
+      templateColumns={{
+        sm: "1fr",
+        md: "repeat(2, 1fr)",
+        lg: "repeat(3, 1fr)",
+        xl: "repeat(4, 1fr)",
+        "2xl": "repeat(5, 1fr)",
+      }}
+    >
+      {isLoading ? (
+        <>
+          <CafeItemSkeleton />
+          <CafeItemSkeleton />
+          <CafeItemSkeleton />
+          <CafeItemSkeleton />
+          <CafeItemSkeleton />
+          <CafeItemSkeleton />
+          <CafeItemSkeleton />
+          <CafeItemSkeleton />
+          <CafeItemSkeleton />
+        </>
+      ) : null}
+      <CafeItem />
     </Grid>
   );
 };

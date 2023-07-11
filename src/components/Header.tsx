@@ -3,6 +3,7 @@ import {
   Button,
   HStack,
   IconButton,
+  Stack,
   useColorMode,
   useColorModeValue,
   useDisclosure,
@@ -26,9 +27,21 @@ const Header = () => {
   const logoColor = useColorModeValue("pink.500", "pink.200");
   const ColoredIcon = useColorModeValue(FaMoon, FaSun);
   return (
-    <HStack
+    <Stack
       py={5}
-      px={40}
+      px={{
+        md: 10,
+        lg: 40,
+      }}
+      direction={{
+        sm: "column",
+        md: "row",
+      }}
+      alignItems={"center"}
+      spacing={{
+        sm: 4,
+        md: 0,
+      }}
       borderBottomWidth={1}
       justifyContent={"space-between"}
     >
@@ -49,7 +62,7 @@ const Header = () => {
       </HStack>
       <LoginModal onClose={onLoginClose} isOpen={isLoginOpen} />
       <SignUpModal onClose={onSignupClose} isOpen={isSignupOpen} />
-    </HStack>
+    </Stack>
   );
 };
 export default Header;
