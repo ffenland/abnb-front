@@ -15,3 +15,6 @@ export const getCafeReviews = ({ queryKey }: QueryFunctionContext) =>
   instance
     .get(`cafes/${queryKey[1]}/reviews/`)
     .then((response) => response.data);
+
+export const getMe = () =>
+  instance.get("users/me/").then((response) => response.data);

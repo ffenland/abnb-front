@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Container,
   Grid,
   GridItem,
   HStack,
@@ -126,7 +127,7 @@ const Cafe = () => {
         ></Avatar>
       </HStack>
       <Box mt={10}>
-        <Heading fontSize={"2xl"}>
+        <Heading fontSize={"2xl"} mb={5}>
           <HStack>
             <FaStar />
             <Text>data.rating</Text>
@@ -136,6 +137,29 @@ const Cafe = () => {
             </Text>
           </HStack>
         </Heading>
+        <Container mx={"none"} mt={15} maxW={"container.lg"}>
+          <Grid templateColumns={"1fr 1fr"} gap={2}>
+            {reviewsData?.map((review, i) => (
+              <VStack key={i} alignItems={"flex-start"}>
+                <HStack>
+                  <Avatar
+                    name={review.user.username}
+                    src={review.user.avatar}
+                    size={"md"}
+                  />
+                  <VStack alignItems={"flex-start"} spacing={0}>
+                    <Heading fontSize={"md"}>{review.user.username}</Heading>
+                    <HStack spacing={1}>
+                      <FaStar size={12} />
+                      <Text>{review.rating}</Text>
+                    </HStack>
+                  </VStack>
+                </HStack>
+                <Text>{review.payload}</Text>
+              </VStack>
+            ))}
+          </Grid>
+        </Container>
       </Box>
     </Box>
   );
