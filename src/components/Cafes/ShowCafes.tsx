@@ -1,21 +1,29 @@
 import { Grid } from "@chakra-ui/react";
 import CafeItem from "./CafeItem";
 import CafeItemSkeleton from "./CafeItemSkeleton";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getCafes } from "../../libs/api";
+
+interface IPhoto {
+  pk: number;
+  cf_id: string;
+  description: string;
+}
+
+interface ICafe {
+  pk: number;
+  name: string;
+  address: string;
+  category: number;
+  is_owner: boolean;
+  photo_set: IPhoto[];
+}
+
 const ShowCafes = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [cafes, setCafes] = useState(undefined);
-  useEffect(() => {
-    const getCafes = async () => {
-      const response = await fetch("http://127.0.0.1:8000/api/v1/cafes/");
-      const result = await response.json();
-      setCafes(result);
-      setIsLoading(false);
-    };
-    getCafes();
-  }, []);
+  const { isLoading, data } = useQuery<ICafe[]>(["cafes"], getCafes);
   return (
     <Grid
+      mt={10}
       px={{
         base: 10,
         lg: 40,
@@ -43,7 +51,15 @@ const ShowCafes = () => {
           <CafeItemSkeleton />
         </>
       ) : null}
-      <CafeItem />
+      {data?.map((cafe) => (
+        <CafeItem
+          key={cafe.pk}
+          pk={cafe.pk}
+          name={cafe.name}
+          address={cafe.address}
+          imageUrl={cafe.photo_set[0]?.cf_id}
+        />
+      ))}
     </Grid>
   );
 };

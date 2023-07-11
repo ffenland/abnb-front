@@ -11,6 +11,7 @@ import {
 import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
 import LoginModal from "./Auth/LoginModal";
 import SignUpModal from "./Auth/SignUpModal";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const {
@@ -23,7 +24,7 @@ const Header = () => {
     onClose: onSignupClose,
     isOpen: isSignupOpen,
   } = useDisclosure();
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { toggleColorMode } = useColorMode();
   const logoColor = useColorModeValue("pink.500", "pink.200");
   const ColoredIcon = useColorModeValue(FaMoon, FaSun);
   return (
@@ -45,9 +46,11 @@ const Header = () => {
       borderBottomWidth={1}
       justifyContent={"space-between"}
     >
-      <Box color={logoColor}>
-        <FaAirbnb size={"40"} />
-      </Box>
+      <Link to="/">
+        <Box color={logoColor}>
+          <FaAirbnb size={"40"} />
+        </Box>
+      </Link>
       <HStack spacing={2}>
         <IconButton
           onClick={toggleColorMode}
