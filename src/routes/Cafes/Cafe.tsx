@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getCafeDetail, getCafeReviews } from "../libs/api";
+import { getCafeDetail, getCafeReviews } from "../../libs/api";
 import { FaStar, FaRegHeart } from "react-icons/fa";
 
 interface ICafePhoto {

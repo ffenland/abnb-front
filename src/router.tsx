@@ -2,9 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "./components/Root";
 import Home from "./routes/Home";
 import NotFound from "./routes/NotFound";
-import Cafe from "./routes/Cafe";
+import Cafe from "./routes/Cafes/Cafe";
 import NaverConfirm from "./routes/Auth/NaverConfirm";
 import KakaoConfirm from "./routes/Auth/KakaoConfirm";
+import CafeUpload from "./routes/Cafes/CafeUpload";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "cafes/upload",
+        element: <CafeUpload />,
       },
       {
         path: "cafes/:cafePk",

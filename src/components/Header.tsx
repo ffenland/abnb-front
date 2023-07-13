@@ -109,6 +109,13 @@ const Header = () => {
                 <Avatar size={"md"} name={user.username} src={user.avatar} />
               </MenuButton>
               <MenuList>
+                {user.isHost ? (
+                  <Link to="/cafes/upload">
+                    <MenuItem>
+                      <Text>Upload your cafe</Text>
+                    </MenuItem>
+                  </Link>
+                ) : null}
                 <MenuItem onClick={onLogout}>
                   <Text>Logout</Text>
                 </MenuItem>
