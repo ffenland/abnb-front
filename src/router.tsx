@@ -6,6 +6,7 @@ import Cafe from "./routes/Cafes/Cafe";
 import NaverConfirm from "./routes/Auth/NaverConfirm";
 import KakaoConfirm from "./routes/Auth/KakaoConfirm";
 import CafeUpload from "./routes/Cafes/CafeUpload";
+import PhotoUpload from "./routes/Cafes/PhotoUpload";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "cafes/:cafePk",
         element: <Cafe />,
+      },
+      {
+        path: "cafes/:cafePk/photos",
+        element: <PhotoUpload />,
       },
       {
         path: "social",

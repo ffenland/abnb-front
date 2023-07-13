@@ -8,18 +8,24 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FaStar, FaRegHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaStar, FaRegHeart, FaCamera } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
 interface ICafeItem {
   pk: number;
   name: string;
+  isOwner: boolean;
   address: string;
   imageUrl?: string;
 }
 
-const CafeItem = ({ pk, name, address, imageUrl }: ICafeItem) => {
+const CafeItem = ({ pk, name, isOwner, address, imageUrl }: ICafeItem) => {
   const gray = useColorModeValue("gray.600", "gray.300");
+  const navigate = useNavigate();
+  const onCameraClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    navigate(`/cafes/${pk}/photos`);
+  };
   return (
     <Link to={`/cafes/${pk}`}>
       <VStack spacing={1} alignItems={"flex-start"}>
@@ -31,8 +37,13 @@ const CafeItem = ({ pk, name, address, imageUrl }: ICafeItem) => {
             top={0}
             right={0}
             color={"gray.200"}
+            onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
+              if (isOwner) {
+                onCameraClick(event);
+              }
+            }}
           >
-            <FaRegHeart size={20} />
+            {isOwner ? <FaCamera size={20} /> : <FaRegHeart size={20} />}
           </Button>
         </Box>
         <Box w={"100%"}>

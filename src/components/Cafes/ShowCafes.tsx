@@ -55,6 +55,7 @@ const ShowCafes = () => {
         <CafeItem
           key={cafe.pk}
           pk={cafe.pk}
+          isOwner={cafe.is_owner}
           name={cafe.name}
           address={cafe.address}
           imageUrl={cafe.photo_set[0]?.cf_id}

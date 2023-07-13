@@ -94,12 +94,14 @@ const Cafe = () => {
             rowSpan={i === 0 ? 2 : 1}
           >
             <Skeleton isLoaded={!isLoading} h={"100%"} w={"100%"}>
-              <Image
-                w={"100%"}
-                h={"100%"}
-                objectFit={"cover"}
-                src={data?.photo_set[i].cf_id}
-              />
+              {data?.photo_set && data.photo_set.length > 0 ? (
+                <Image
+                  w={"100%"}
+                  h={"100%"}
+                  objectFit={"cover"}
+                  src={data?.photo_set[i].cf_id}
+                />
+              ) : null}
             </Skeleton>
           </GridItem>
         ))}
