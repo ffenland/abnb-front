@@ -125,3 +125,26 @@ export const uploadImage = async ({
     })
     .then((response) => response.data);
 };
+
+export interface ICreatePhotoVariables {
+  cf_id: string;
+  description: string;
+  cafePk: string;
+}
+
+export const createPhoto = ({
+  cf_id,
+  description,
+  cafePk,
+}: ICreatePhotoVariables) =>
+  instance
+    .post(
+      `cafes/${cafePk}/photos/`,
+      { cf_id, description },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.data);

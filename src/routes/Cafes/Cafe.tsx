@@ -13,8 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { FaStar } from "react-icons/fa";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { getCafeDetail, getCafeReviews } from "../../libs/api";
-import { FaStar, FaRegHeart } from "react-icons/fa";
+import { useState } from "react";
 
 interface ICafePhoto {
   pk: number;
@@ -66,6 +69,7 @@ const Cafe = () => {
   const { isLoading: isReviewsLoading, data: reviewsData } = useQuery<
     IReview[]
   >(["cafes", cafePk, "reviews"], getCafeReviews);
+  const [calendarDates, setCalendarDates] = useState<Date | null>(null);
   return (
     <Box
       mt={10}
@@ -106,63 +110,79 @@ const Cafe = () => {
           </GridItem>
         ))}
       </Grid>
-
-      <HStack mt="10" w="50%" justifyContent={"space-between"}>
-        <VStack alignItems={"flex-start"}>
-          <Skeleton isLoaded={!isLoading} h={"30px"}>
-            <Heading fontSize={"2xl"}>
-              Cafe hosted by {data?.owner.username}
-            </Heading>
-          </Skeleton>
-          <Skeleton isLoaded={!isLoading} h={"30px"}>
-            <HStack justifyContent={"flex-start"} w="100%">
-              <Text>테이블 5개</Text>
-              <Text>·</Text>
-              <Text>단체룸 1개</Text>
-            </HStack>
-          </Skeleton>
-        </VStack>
-        <Avatar
-          name={data?.owner.username}
-          size={"xl"}
-          src={data?.owner.avatar}
-        ></Avatar>
-      </HStack>
-      <Box mt={10}>
-        <Heading fontSize={"2xl"} mb={5}>
-          <HStack>
-            <FaStar />
-            <Text>data.rating</Text>
-            <Text>·</Text>
-            <Text>
-              {reviewsData?.length} review{reviewsData?.length === 1 ? "" : "s"}
-            </Text>
-          </HStack>
-        </Heading>
-        <Container mx={"none"} mt={15} maxW={"container.lg"}>
-          <Grid templateColumns={"1fr 1fr"} gap={2}>
-            {reviewsData?.map((review, i) => (
-              <VStack key={i} alignItems={"flex-start"}>
-                <HStack>
-                  <Avatar
-                    name={review.user.username}
-                    src={review.user.avatar}
-                    size={"md"}
-                  />
-                  <VStack alignItems={"flex-start"} spacing={0}>
-                    <Heading fontSize={"md"}>{review.user.username}</Heading>
-                    <HStack spacing={1}>
-                      <FaStar size={12} />
-                      <Text>{review.rating}</Text>
-                    </HStack>
-                  </VStack>
+      <Grid gap={20} maxW={"container.lg"} templateColumns={"2fr 1fr"}>
+        <Box>
+          <HStack mt="10" w="100%" justifyContent={"space-between"}>
+            <VStack alignItems={"flex-start"}>
+              <Skeleton isLoaded={!isLoading} h={"30px"}>
+                <Heading fontSize={"2xl"} noOfLines={1}>
+                  Cafe hosted by {data?.owner.username}
+                </Heading>
+              </Skeleton>
+              <Skeleton isLoaded={!isLoading} h={"30px"}>
+                <HStack justifyContent={"flex-start"} w="100%">
+                  <Text>테이블 5개</Text>
+                  <Text>·</Text>
+                  <Text>단체룸 1개</Text>
                 </HStack>
-                <Text>{review.payload}</Text>
-              </VStack>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
+              </Skeleton>
+            </VStack>
+            <Avatar
+              name={data?.owner.username}
+              size={"xl"}
+              src={data?.owner.avatar}
+            ></Avatar>
+          </HStack>
+          <Box mt={10}>
+            <Heading fontSize={"2xl"} mb={5}>
+              <HStack>
+                <FaStar />
+                <Text>data.rating</Text>
+                <Text>·</Text>
+                <Text>
+                  {reviewsData?.length} review
+                  {reviewsData?.length === 1 ? "" : "s"}
+                </Text>
+              </HStack>
+            </Heading>
+            <Container mx={"none"} mt={15} maxW={"container.lg"}>
+              <Grid templateColumns={"1fr 1fr"} gap={2}>
+                {reviewsData?.map((review, i) => (
+                  <VStack key={i} alignItems={"flex-start"}>
+                    <HStack>
+                      <Avatar
+                        name={review.user.username}
+                        src={review.user.avatar}
+                        size={"md"}
+                      />
+                      <VStack alignItems={"flex-start"} spacing={0}>
+                        <Heading fontSize={"md"}>
+                          {review.user.username}
+                        </Heading>
+                        <HStack spacing={1}>
+                          <FaStar size={12} />
+                          <Text>{review.rating}</Text>
+                        </HStack>
+                      </VStack>
+                    </HStack>
+                    <Text>{review.payload}</Text>
+                  </VStack>
+                ))}
+              </Grid>
+            </Container>
+          </Box>
+        </Box>
+        <Box>
+          <Calendar
+            onChange={setCalendarDates}
+            minDetail="month"
+            next2Label={null}
+            prev2Label={null}
+            minDate={new Date()}
+            selectRange
+          />
+        </Box>
+      </Grid>
     </Box>
   );
 };
