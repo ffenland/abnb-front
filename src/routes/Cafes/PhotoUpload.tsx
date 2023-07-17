@@ -58,6 +58,7 @@ const PhotoUpload = () => {
   const onValid = (data: IForm) => {
     getUploadURLMutation.mutate();
   };
+
   return (
     <Box
       pb={40}

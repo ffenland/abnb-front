@@ -18,6 +18,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { getCafeDetail, getCafeReviews } from "../../libs/api";
 import { useState } from "react";
+import type { Value } from "react-calendar/dist/cjs/shared/types";
 
 interface ICafePhoto {
   pk: number;
@@ -69,7 +70,8 @@ const Cafe = () => {
   const { isLoading: isReviewsLoading, data: reviewsData } = useQuery<
     IReview[]
   >(["cafes", cafePk, "reviews"], getCafeReviews);
-  const [calendarDates, setCalendarDates] = useState<Date | null>(null);
+  const [calendarDates, setCalendarDates] = useState<Value>();
+  console.log("DD", calendarDates);
   return (
     <Box
       mt={10}
