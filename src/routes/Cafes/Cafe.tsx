@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Container,
   Grid,
   GridItem,
@@ -16,9 +17,8 @@ import { useQuery } from "@tanstack/react-query";
 import { FaStar } from "react-icons/fa";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { getCafeDetail, getCafeReviews } from "../../libs/api";
-import { useState } from "react";
-import type { Value } from "react-calendar/dist/cjs/shared/types";
+import { checkBooking, getCafeDetail, getCafeReviews } from "../../libs/api";
+import { useEffect, useState } from "react";
 
 interface ICafePhoto {
   pk: number;
@@ -63,6 +63,7 @@ interface IReview {
   payload: string;
   rating: number;
 }
+type ValuePiece = Date | null;
 
 const Cafe = () => {
   const { cafePk } = useParams();
@@ -70,8 +71,19 @@ const Cafe = () => {
   const { isLoading: isReviewsLoading, data: reviewsData } = useQuery<
     IReview[]
   >(["cafes", cafePk, "reviews"], getCafeReviews);
-  const [calendarDates, setCalendarDates] = useState<Value>();
-  console.log("DD", calendarDates);
+  const [calendarDates, setCalendarDates] = useState<ValuePiece[]>([
+    null,
+    null,
+  ]);
+  const { data: checkBookingData, isLoading: isBookingCheck } = useQuery(
+    ["check", cafePk, calendarDates],
+    checkBooking,
+    {
+      enabled: calendarDates[0] !== null && calendarDates[1] !== null,
+      cacheTime: 0,
+    }
+  );
+
   return (
     <Box
       mt={10}
@@ -176,13 +188,29 @@ const Cafe = () => {
         </Box>
         <Box>
           <Calendar
-            onChange={setCalendarDates}
+            onChange={(value) => {
+              if (Array.isArray(value)) {
+                setCalendarDates(value);
+              }
+            }}
             minDetail="month"
             next2Label={null}
             prev2Label={null}
             minDate={new Date()}
             selectRange
           />
+          <Button
+            disabled={!checkBookingData?.ok}
+            isLoading={isBookingCheck}
+            mt={5}
+            w={"100%"}
+            colorScheme={"red"}
+          >
+            Make Booking
+          </Button>
+          {!isBookingCheck && !checkBookingData?.ok ? (
+            <Text>Sorry cannot book those dates</Text>
+          ) : null}
         </Box>
       </Grid>
     </Box>

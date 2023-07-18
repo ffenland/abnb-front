@@ -148,3 +148,28 @@ export const createPhoto = ({
       }
     )
     .then((response) => response.data);
+type ValuePiece = Date | null;
+type CheckBookingQueryKey = [string, string?, ValuePiece[]?];
+export const checkBooking = ({
+  queryKey,
+}: QueryFunctionContext<CheckBookingQueryKey>) => {
+  const [_, cafePk, calendarDates] = queryKey;
+  if (
+    calendarDates &&
+    Array.isArray(calendarDates) &&
+    calendarDates[0] !== null &&
+    calendarDates[1] !== null
+  ) {
+    const [startDateRaw, endDateRaw] = calendarDates;
+    const startDate = startDateRaw.toJSON().split("T")[0];
+    const endDate = endDateRaw.toJSON().split("T")[0];
+
+    return instance
+      .get(
+        `cafes/${cafePk}/bookings/check/?start_date=${startDate}&end_date=${endDate}`
+      )
+      .then((response) => response.data);
+  } else {
+    return null;
+  }
+};
