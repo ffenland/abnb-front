@@ -13,14 +13,20 @@ const SocialLogin = () => {
   const naverParams = new URLSearchParams({
     response_type: "code",
     client_id: process.env.REACT_APP_NAVER_CLIENT_ID!,
-    redirect_uri: process.env.REACT_APP_NAVER_REDIRECT_URI!,
+    redirect_uri:
+      process.env.NODE_ENV === "development"
+        ? process.env.REACT_APP_NAVER_REDIRECT_URI_DEV!
+        : process.env.REACT_APP_NAVER_REDIRECT_URI!,
     state: process.env.REACT_APP_NAVER_STATE!,
   }).toString();
 
   const kakaoParams = new URLSearchParams({
     response_type: "code",
     client_id: process.env.REACT_APP_KAKAO_CLIENT_ID!,
-    redirect_uri: process.env.REACT_APP_KAKAO_REDIRECT_URI!,
+    redirect_uri:
+      process.env.NODE_ENV === "development"
+        ? process.env.REACT_APP_KAKAO_REDIRECT_URI_DEV!
+        : process.env.REACT_APP_KAKAO_REDIRECT_URI!,
   }).toString();
 
   return (
