@@ -30,14 +30,7 @@ const SocialLogin = () => {
   }).toString();
 
   return (
-    <Box mb={4}>
-      <HStack my={8}>
-        <Divider />
-        <Text fontSize={"xs"} as="b">
-          Or
-        </Text>
-        <Divider />
-      </HStack>
+    <Box mb={4} w="full">
       <LightMode>
         <VStack>
           <Button

@@ -7,8 +7,14 @@ import NaverConfirm from "./routes/Auth/NaverConfirm";
 import KakaoConfirm from "./routes/Auth/KakaoConfirm";
 import CafeUpload from "./routes/Cafes/CafeUpload";
 import PhotoUpload from "./routes/Cafes/PhotoUpload";
+import Hello from "./routes/Welcome/Hello";
+import Chat from "./components/Chat";
 
 const router = createBrowserRouter([
+  {
+    path: "welcome",
+    element: <Hello />,
+  },
   {
     path: "/",
     element: <Root />,
@@ -42,6 +48,10 @@ const router = createBrowserRouter([
             element: <KakaoConfirm />,
           },
         ],
+      },
+      {
+        path: "chat",
+        element: <Chat />,
       },
     ],
   },

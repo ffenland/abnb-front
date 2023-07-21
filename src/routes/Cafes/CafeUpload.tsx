@@ -48,6 +48,7 @@ const CafeUpload = () => {
     isOpen: isAddressOpen,
   } = useDisclosure();
   const onAddressComplete = (data: Address) => {
+    console.log(data);
     setValue("address", data.address);
     return;
   };
